@@ -1,0 +1,36 @@
+{
+  "chainId": 10,
+  "contracts": {
+    "LimitOrderBook": {
+      "address": "0x93B9DaC2d57AaD1966859E8d1b5cCF5b95de9af4",
+      "createdBlockNumber": 13870078,
+      "name": "contracts/limitOrder/LimitOrderBook.sol:LimitOrderBook"
+    },
+    "LimitOrderRewardVault": {
+      "address": "0x41C8759533bDD05D73f8EE8b876cFE6600De288D",
+      "createdBlockNumber": 13870061,
+      "name": "contracts/limitOrder/LimitOrderRewardVault.sol:LimitOrderRewardVault"
+    },
+    "Multicall2": {
+      "address": "0x7105b732F2F0D5A6f7bDB159F0074b8587E2425b",
+      "createdBlockNumber": 514515,
+      "name": "contracts/lens/Multicall2.sol:Multicall2"
+    },
+    "PerpPortal": {
+      "address": "0xa18fa074a2A5B01E69a35771E709553af4676558",
+      "createdBlockNumber": 1106197,
+      "name": "contracts/lens/PerpPortal.sol:PerpPortal"
+    },
+    "Quoter": {
+      "address": "0x125e0CFB77ca7b369eE773C507cf59C019e6C6ee",
+      "createdBlockNumber": 3634988,
+      "name": "contracts/lens/Quoter.sol:Quoter"
+    }
+  },
+  "externalContracts": {
+    "DefaultProxyAdmin": "0x7566E94dF784680B5b1a29632EC6f7F65263Da69",
+    "PERP": "0x9e1028F5F1D5eDE59748FFceE5532509976840E0",
+    "PerpetualProtocolReferrer": "0xbfBa3368d94b8b006A4fd59C13b9e9F9b071D106"
+  },
+  "network": "optimism"
+}

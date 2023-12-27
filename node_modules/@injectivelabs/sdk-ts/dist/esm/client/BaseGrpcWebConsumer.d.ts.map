@@ -1,0 +1,1 @@
+{"version":3,"file":"BaseGrpcWebConsumer.d.ts","sourceRoot":"","sources":["../../../src/client/BaseGrpcWebConsumer.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,mBAAmB,EAAE,MAAM,8BAA8B,CAAA;AAMlE;;GAEG;AACH,MAAM,CAAC,OAAO,OAAO,mBAAoB,SAAQ,mBAAmB,CAAC,WAAW;IAC9E,SAAS,CAAC,MAAM,EAAE,MAAM,CAAK;gBAEjB,QAAQ,EAAE,MAAM;CAG7B;AAED,eAAO,MAAM,cAAc,aAAc,MAAM,wBACZ,CAAA"}

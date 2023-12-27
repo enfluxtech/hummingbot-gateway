@@ -1,0 +1,6 @@
+{
+  "@perp/curie-periphery-contract": "git+ssh://git@github.com:perpetual-protocol/perp-curie-periphery-contract.git#a8fb8b9d6ee5836b0e652e6789c3c2469155fb2f",
+  "@perp/perp-referral-contracts": "git+ssh://git@github.com:perpetual-protocol/perp-referral-contracts.git#0d10a969ef9807f5ed61ee3d990dffd9f85caab4",
+  "ethers": "5.2.0",
+  "core-optimism": "0.1.0"
+}

@@ -24,3 +24,4 @@ jobs:
 
     - name: Docker Push to Latest image
       run: docker push enflux/gateway:latest
+      

@@ -13,13 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Get version
-      id: version-step
-      uses: michmich112/extract-version@main
-      with:
-        # specify here the path to your version file (e.g. package.json, pom.xml...)
-        version-file: hummingbot/VERSION
-        schema: major.minor.build
     - name: docker login
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
@@ -27,13 +20,7 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker image
-      run: docker build -t enflux/gateway:${{ steps.version-step.outputs.version }} -f Dockerfile .
-
-    - name: Docker Push to Version image
-      run: docker push enflux/gateway:${{ steps.version-step.outputs.version }}
-
-    - name: Docker duplicate image to latest
-      run: docker tag enflux/gateway:${{ steps.version-step.outputs.version }} enflux/gateway:latest
+      run: docker build -t enflux/gateway:latest -f Dockerfile .
 
     - name: Docker Push to Latest image
       run: docker push enflux/gateway:latest

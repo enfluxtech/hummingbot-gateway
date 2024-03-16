@@ -7,6 +7,7 @@ import { Polygon } from '../chains/polygon/polygon';
 import { Xdc } from '../chains/xdc/xdc';
 import { Tezos } from '../chains/tezos/tezos';
 import { Kujira } from '../chains/kujira/kujira';
+import { Telos } from '../chains/telos/telos';
 import {
   HttpException,
   UNKNOWN_CHAIN_ERROR_CODE,
@@ -108,6 +109,11 @@ export async function getStatus(
     connections = connections.concat(
       kujiraConnections ? Object.values(kujiraConnections) : []
     );
+
+    const telosConnections = Telos.getConnectedInstances();
+    connections = connections.concat(
+      telosConnections ? Object.values(telosConnections) : []
+    );
   }
 
   for (const connection of connections) {
@@ -116,7 +122,6 @@ export async function getStatus(
     network = connection.network;
     rpcUrl = connection.rpcUrl;
     nativeCurrency = connection.nativeTokenSymbol;
-
     try {
       currentBlockNumber = await connection.getCurrentBlockNumber();
     } catch (_e) {

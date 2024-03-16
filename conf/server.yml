@@ -4,7 +4,7 @@ port: 15888
 ipWhitelist: []
 GMTOffset: 800
 logToStdOut: true
-unsafeDevModeWithHTTP: false
+unsafeDevModeWithHTTP: true
 telemetry_enabled: false
 nonceDbPath: nonce.level
 transactionDbPath: transaction.level

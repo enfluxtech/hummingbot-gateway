@@ -1,0 +1,74 @@
+{
+  "name": "Telos Evm",
+  "tokens": [
+    {
+      "address": "0x26Ed0F16e777C94A6FE798F9E20298034930Bae8",
+      "chainId": 40,
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/sushiswap/list/master/logos/token-logos/network/telos/0x26Ed0F16e777C94A6FE798F9E20298034930Bae8.jpg",
+      "name": "Binance Coin",
+      "symbol": "BNB"
+    },
+
+    {
+      "address": "0x7627b27594bc71e6Ab0fCE755aE8931EB1E12DAC",
+      "chainId": 40,
+      "decimals": 8,
+      "logoURI": "https://raw.githubusercontent.com/sushiswap/list/master/logos/token-logos/network/telos/0x7627b27594bc71e6Ab0fCE755aE8931EB1E12DAC.jpg",
+      "name": "Bitcoin",
+      "symbol": "BTC.b"
+    },
+
+    {
+      "address": "0xA0fB8cd450c8Fd3a11901876cD5f17eB47C6bc50",
+      "chainId": 40,
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/sushiswap/list/master/logos/token-logos/network/telos/0xA0fB8cd450c8Fd3a11901876cD5f17eB47C6bc50.jpg",
+      "name": "Ethereum",
+      "symbol": "ETH"
+    },
+
+    {
+      "address": "0x76aE0b4C828DdCa1841a4FE394Af5D8679Baf118",
+      "chainId": 40,
+      "decimals": 9,
+      "logoURI": "https://raw.githubusercontent.com/sushiswap/list/master/logos/token-logos/network/telos/0x76aE0b4C828DdCa1841a4FE394Af5D8679Baf118.jpg",
+      "name": "ShibaTelos Coin",
+      "symbol": "SC"
+    },
+    {
+      "address": "0xB4B01216a5Bc8F1C8A33CD990A1239030E60C905",
+      "chainId": 40,
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/sushiswap/list/master/logos/token-logos/network/telos/0xB4B01216a5Bc8F1C8A33CD990A1239030E60C905.jpg",
+      "name": "Staked TLOS",
+      "symbol": "STLOS"
+    },
+
+    {
+      "address": "0x8D97Cea50351Fb4329d591682b148D43a0C3611b",
+      "chainId": 40,
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/sushiswap/list/master/logos/token-logos/network/telos/0x8D97Cea50351Fb4329d591682b148D43a0C3611b.jpg",
+      "name": "USD Coin",
+      "symbol": "USDC"
+    },
+
+    {
+      "address": "0x975Ed13fa16857E83e7C493C7741D556eaaD4A3f",
+      "chainId": 40,
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/sushiswap/list/master/logos/token-logos/network/telos/0x975Ed13fa16857E83e7C493C7741D556eaaD4A3f.jpg",
+      "name": "Tether Stable Coin",
+      "symbol": "USDT"
+    },
+    {
+      "address": "0xD102cE6A4dB07D247fcc28F366A623Df0938CA9E",
+      "chainId": 40,
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/sushiswap/list/master/logos/token-logos/network/telos/0xD102cE6A4dB07D247fcc28F366A623Df0938CA9E.jpg",
+      "name": "Wrapped Telos",
+      "symbol": "WTLOS"
+    }
+  ]
+}

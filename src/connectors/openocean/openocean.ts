@@ -19,6 +19,7 @@ import { Polygon } from '../../chains/polygon/polygon';
 import { Harmony } from '../../chains/harmony/harmony';
 import { BinanceSmartChain } from '../../chains/binance-smart-chain/binance-smart-chain';
 import { Cronos } from '../../chains/cronos/cronos';
+import { Telos } from '../../chains/telos/telos';
 import { ExpectedTrade, Uniswapish } from '../../services/common-interfaces';
 import {
   HttpException,
@@ -99,6 +100,8 @@ export class Openocean implements Uniswapish {
       return BinanceSmartChain.getInstance(network);
     } else if (this._chain === 'cronos') {
       return Cronos.getInstance(network);
+    } else if (this._chain === 'telos') {
+      return Telos.getInstance(network);
     } else {
       throw new Error('unsupported chain');
     }

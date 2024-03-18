@@ -11,6 +11,7 @@ import {
   Price,
 } from '@uniswap/sdk';
 import Decimal from 'decimal.js-light';
+import { Big } from 'big.js';
 import axios from 'axios';
 import { logger } from '../../services/logger';
 import { Avalanche } from '../../chains/avalanche/avalanche';
@@ -342,14 +343,17 @@ export class Openocean implements Uniswapish {
     if (quoteRes.status == 200) {
       if (
         quoteRes.data.code == 200 &&
-        Number(quoteRes.data.data.reverseAmount) > 0
+        new Big(quoteRes.data.data.reverseAmount).gt(0)
       ) {
         const quoteData = quoteRes.data.data;
         logger.info(
           `estimateBuyTrade reverseData inAmount(${quoteToken.symbol}): ${quoteData.reverseAmount}, outAmount(${baseToken.symbol}): ${quoteData.inAmount}`
         );
-        const amounts = [quoteData.reverseAmount, quoteData.inAmount];
-        const minimumInput = new TokenAmount(quoteToken, amounts[0].toString());
+        const amounts = [
+          new Big(quoteData.reverseAmount).toFixed(0),
+          new Big(quoteData.inAmount).toString(),
+        ];
+        const minimumInput = new TokenAmount(quoteToken, amounts[0]);
         const trade = newFakeTrade(
           quoteToken,
           baseToken,

@@ -1,6 +1,7 @@
 /logs
 /dist
 /db
+/conf
 /.idea
 /*.iml
 package-lock.json

@@ -37,6 +37,7 @@ export namespace OpenoceanConfig {
       { chain: 'harmony', networks: ['mainnet'] },
       { chain: 'binance-smart-chain', networks: ['mainnet'] },
       { chain: 'cronos', networks: ['mainnet'] },
+      { chain: 'telos', networks: ['evm'] },
     ],
   };
 }

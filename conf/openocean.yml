@@ -31,3 +31,9 @@ contractAddresses:
   telos:
     evm:
       routerAddress: '0x6352a56caadC4F1E25CD6c75970Fa768A3304e64'
+
+# Get from https://open-api.openocean.finance/v3/:chain/dexList
+# array of code for enabling 
+enabledDexIds: 
+  telos:
+    evm: [5,6,7,8]

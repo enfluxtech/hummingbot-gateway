@@ -64,6 +64,7 @@ export class Openocean implements Uniswapish {
   private _ttl: number;
   private chainId;
   private tokenList: Record<string, Token> = {};
+  private _enabledDexIds: number[];
   private _ready: boolean = false;
 
   private constructor(chain: string, network: string) {
@@ -75,6 +76,7 @@ export class Openocean implements Uniswapish {
     this._router = config.routerAddress(chain, network);
     this._ttl = config.ttl;
     this._gasLimitEstimate = config.gasLimitEstimate;
+    this._enabledDexIds = config.enabledDexIds(chain, network);
   }
 
   public static getInstance(chain: string, network: string): Openocean {
@@ -231,6 +233,7 @@ export class Openocean implements Uniswapish {
             outTokenAddress: quoteToken.address,
             amount: reqAmount,
             gasPrice: gasPrice,
+            enabledDexIds: this._enabledDexIds.join(','),
           },
         }
       );
@@ -320,6 +323,7 @@ export class Openocean implements Uniswapish {
             outTokenAddress: quoteToken.address,
             amount: reqAmount,
             gasPrice: gasPrice,
+            enabledDexIds: this._enabledDexIds.join(','),
           },
         }
       );
@@ -418,6 +422,7 @@ export class Openocean implements Uniswapish {
             account: wallet.address,
             gasPrice: gasPrice.toString(),
             referrer: '0x3fb06064b88a65ba9b9eb840dbb5f3789f002642',
+            enabledDexIds: this._enabledDexIds.join(','),
           },
         }
       );

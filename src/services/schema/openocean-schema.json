@@ -24,6 +24,21 @@
         }
       },
       "additionalProperties": false
+    },
+    "enabledDexIds": {
+      "type": "object",
+      "patternProperties": {
+        "[\\w-]+$": {
+          "type": "object",
+          "patternProperties": {
+            "^\\w+$": {
+              "type": ["array", "null"]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false,

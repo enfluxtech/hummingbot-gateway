@@ -25,7 +25,7 @@
       },
       "additionalProperties": false
     },
-    "enabledDexIds": {
+    "enabledDexCodes": {
       "type": "object",
       "patternProperties": {
         "[\\w-]+$": {

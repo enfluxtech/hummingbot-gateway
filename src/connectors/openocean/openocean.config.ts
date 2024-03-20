@@ -10,7 +10,7 @@ export namespace OpenoceanConfig {
     tradingTypes: Array<string>;
     chainType: string;
     availableNetworks: Array<AvailableNetworks>;
-    enabledDexIds: (chain: string, network: string) => Array<number>;
+    enabledDexCodes: (chain: string, network: string) => Array<string>;
   }
 
   export const config: NetworkConfig = {
@@ -40,9 +40,9 @@ export namespace OpenoceanConfig {
       { chain: 'cronos', networks: ['mainnet'] },
       { chain: 'telos', networks: ['evm'] },
     ],
-    enabledDexIds: (chain: string, network: string) =>
+    enabledDexCodes: (chain: string, network: string) =>
       ConfigManagerV2.getInstance().get(
-        'openocean.enabledDexIds.' + chain + '.' + network
+        'openocean.enabledDexCodes.' + chain + '.' + network
       ) || [],
   };
 }

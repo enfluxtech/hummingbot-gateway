@@ -24,6 +24,7 @@ import { Telos } from '../../chains/telos/telos';
 import { ExpectedTrade, Uniswapish } from '../../services/common-interfaces';
 import {
   HttpException,
+  NETWORK_ERROR_CODE,
   TRADE_FAILED_ERROR_CODE,
   TRADE_FAILED_ERROR_MESSAGE,
   UniswapishPriceError,
@@ -64,7 +65,8 @@ export class Openocean implements Uniswapish {
   private _ttl: number;
   private chainId;
   private tokenList: Record<string, Token> = {};
-  private _enabledDexIds: number[];
+  private _enabledDexCodes: string[];
+  private _enabledDexIndexes: number[];
   private _ready: boolean = false;
 
   private constructor(chain: string, network: string) {
@@ -76,7 +78,8 @@ export class Openocean implements Uniswapish {
     this._router = config.routerAddress(chain, network);
     this._ttl = config.ttl;
     this._gasLimitEstimate = config.gasLimitEstimate;
-    this._enabledDexIds = config.enabledDexIds(chain, network);
+    this._enabledDexCodes = config.enabledDexCodes(chain, network);
+    this._enabledDexIndexes = [];
   }
 
   public static getInstance(chain: string, network: string): Openocean {
@@ -132,6 +135,10 @@ export class Openocean implements Uniswapish {
         token.symbol,
         token.name
       );
+    }
+
+    if (this._enabledDexCodes.length && !this._enabledDexIndexes.length) {
+      this._enabledDexIndexes = await this.initEnabledDexIndexes();
     }
     this._ready = true;
   }
@@ -199,6 +206,54 @@ export class Openocean implements Uniswapish {
     );
   }
 
+  async initEnabledDexIndexes(): Promise<number[]> {
+    if (!this._enabledDexCodes.length) {
+      return [];
+    }
+
+    let dexListRes;
+    try {
+      dexListRes = await axios.get(
+        `https://open-api.openocean.finance/v3/${this.chainName}/dexList`,
+        {
+          params: {},
+        }
+      );
+    } catch (e) {
+      if (e instanceof Error) {
+        logger.error(`Could not get dex list info. ${e.message}`);
+        throw new HttpException(500, e.message, NETWORK_ERROR_CODE);
+      } else {
+        logger.error('Unknown error trying to get dex list.');
+        throw new HttpException(
+          500,
+          UNKNOWN_ERROR_MESSAGE,
+          UNKNOWN_ERROR_ERROR_CODE
+        );
+      }
+    }
+
+    if (dexListRes.status == 200) {
+      if (dexListRes.data.code == 200) {
+        const dexList = dexListRes.data.data;
+        logger.info(`initializing enabled dex indexes...`);
+        let indexes = [];
+        for (const dex of dexList) {
+          if (
+            this._enabledDexCodes
+              .map((code) => code.toLowerCase())
+              .includes(dex.code.toLowerCase()) &&
+            Number(dex.index) > -1
+          ) {
+            indexes.push(Number(dex.index));
+          }
+        }
+        return indexes;
+      }
+    }
+    return [];
+  }
+
   /**
    * Given the amount of `baseToken` to put into a transaction, calculate the
    * amount of `quoteToken` that can be expected from the transaction.
@@ -233,7 +288,7 @@ export class Openocean implements Uniswapish {
             outTokenAddress: quoteToken.address,
             amount: reqAmount,
             gasPrice: gasPrice,
-            enabledDexIds: this._enabledDexIds.join(','),
+            enabledDexIds: this._enabledDexIndexes.join(','),
           },
         }
       );
@@ -323,7 +378,7 @@ export class Openocean implements Uniswapish {
             outTokenAddress: quoteToken.address,
             amount: reqAmount,
             gasPrice: gasPrice,
-            enabledDexIds: this._enabledDexIds.join(','),
+            enabledDexIds: this._enabledDexIndexes.join(','),
           },
         }
       );
@@ -422,7 +477,7 @@ export class Openocean implements Uniswapish {
             account: wallet.address,
             gasPrice: gasPrice.toString(),
             referrer: '0x3fb06064b88a65ba9b9eb840dbb5f3789f002642',
-            enabledDexIds: this._enabledDexIds.join(','),
+            enabledDexIds: this._enabledDexIndexes.join(','),
           },
         }
       );

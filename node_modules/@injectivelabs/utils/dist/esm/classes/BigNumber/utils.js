@@ -1,4 +1,0 @@
-import { BigNumber } from 'bignumber.js';
-export const bigNumberBaseToWei = (value, decimals = 18) => new BigNumber(value).multipliedBy(new BigNumber(10).pow(decimals));
-export const bigNumberWeiToBase = (value, decimals = 18) => new BigNumber(value).dividedBy(new BigNumber(10).pow(decimals));
-//# sourceMappingURL=utils.js.map

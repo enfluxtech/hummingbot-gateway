@@ -34,6 +34,7 @@ import { PublicClient, createPublicClient, http, getAddress } from 'viem';
 import { GraphQLClient } from 'graphql-request';
 import {
   Pool,
+  PoolType,
   SmartRouter,
   SmartRouterTrade,
   SwapRouter,
@@ -186,32 +187,11 @@ export class PancakeSwap implements Uniswapish {
     amount: BigNumber,
     _allowedSlippage?: string
   ): Promise<ExpectedTrade> {
-    const nativeTokenAmount: CurrencyAmount<Token> =
-      CurrencyAmount.fromRawAmount(baseToken, amount.toString());
-
     logger.info(
       `Fetching pair data for ${quoteToken.address}-${baseToken.address}.`
     );
 
-    const quoteProvider = SmartRouter.createQuoteProvider({
-      // @ts-ignore
-      onChainProvider: () => this.createPublicClient(),
-    });
-    const pools = await this.getPools(baseToken, quoteToken);
-
-    const trade = await SmartRouter.getBestTrade(
-      nativeTokenAmount,
-      quoteToken,
-      TradeType.EXACT_OUTPUT,
-      {
-        gasPriceWei: () => this.createPublicClient().getGasPrice(),
-        maxHops: this._maximumHops,
-        maxSplits: 1,
-        poolProvider: SmartRouter.createStaticPoolProvider(pools),
-        quoteProvider,
-        quoterOptimization: true,
-      }
-    );
+    const trade = await this.getBestTrade(baseToken, quoteToken, amount, TradeType.EXACT_OUTPUT);
 
     if (!trade) {
       throw new UniswapishPriceError(
@@ -220,8 +200,8 @@ export class PancakeSwap implements Uniswapish {
     }
     logger.info(
       `Best trade for ${baseToken.address}-${quoteToken.address}: ` +
-        `${trade.inputAmount.toExact()}` +
-        `${baseToken.symbol}.`
+      `${trade.inputAmount.toExact()}` +
+      `${baseToken.symbol}.`
     );
 
     return {
@@ -250,32 +230,11 @@ export class PancakeSwap implements Uniswapish {
     amount: BigNumber,
     _allowedSlippage?: string
   ): Promise<ExpectedTrade> {
-    const nativeTokenAmount: CurrencyAmount<Token> =
-      CurrencyAmount.fromRawAmount(baseToken, amount.toString());
-
     logger.info(
       `Fetching pair data for ${baseToken.address}-${quoteToken.address}.`
     );
 
-    const quoteProvider = SmartRouter.createQuoteProvider({
-      // @ts-ignore
-      onChainProvider: () => this.createPublicClient(),
-    });
-    const pools = await this.getPools(baseToken, quoteToken);
-
-    const trade = await SmartRouter.getBestTrade(
-      nativeTokenAmount,
-      quoteToken,
-      TradeType.EXACT_INPUT,
-      {
-        gasPriceWei: () => this.createPublicClient().getGasPrice(),
-        maxHops: this._maximumHops,
-        maxSplits: 1,
-        poolProvider: SmartRouter.createStaticPoolProvider(pools),
-        quoteProvider,
-        quoterOptimization: true,
-      }
-    );
+    const trade = await this.getBestTrade(baseToken, quoteToken, amount, TradeType.EXACT_INPUT);
 
     if (!trade) {
       throw new UniswapishPriceError(
@@ -284,8 +243,8 @@ export class PancakeSwap implements Uniswapish {
     }
     logger.info(
       `Best trade for ${baseToken.address}-${quoteToken.address}: ` +
-        `${trade.outputAmount.toExact()}` +
-        `${baseToken.symbol}.`
+      `${trade.outputAmount.toExact()}` +
+      `${baseToken.symbol}.`
     );
 
     return {
@@ -428,6 +387,34 @@ export class PancakeSwap implements Uniswapish {
     }, [] as Pool[]);
 
     return fulfilledPools.flat();
+  }
+
+  async getBestTrade(baseToken: Token, quoteToken: Token, amount: BigNumber, tradeType: TradeType): Promise<SmartRouterTrade<TradeType> | null> {
+    const baseTokenAmount: CurrencyAmount<Token> =
+      CurrencyAmount.fromRawAmount(baseToken, amount.toString());
+
+    const quoteProvider = SmartRouter.createQuoteProvider({
+      // @ts-ignore
+      onChainProvider: () => this.createPublicClient(),
+    });
+    const pools = await this.getPools(baseToken, quoteToken);
+
+    const trade = await SmartRouter.getBestTrade(
+      baseTokenAmount,
+      quoteToken,
+      tradeType,
+      {
+        gasPriceWei: () => this.createPublicClient().getGasPrice(),
+        maxHops: this._maximumHops,
+        maxSplits: 1,
+        poolProvider: SmartRouter.createStaticPoolProvider(pools),
+        quoteProvider,
+        quoterOptimization: true,
+        allowedPoolTypes: [PoolType.V2, PoolType.V3, PoolType.STABLE],
+      }
+    );
+
+    return trade;
   }
 
   private createPublicClient(): PublicClient {

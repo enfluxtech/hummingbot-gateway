@@ -28,3 +28,12 @@ contractAddresses:
   cronos:
     mainnet:
       routerAddress: '0x6352a56caadC4F1E25CD6c75970Fa768A3304e64'
+  telos:
+    evm:
+      routerAddress: '0x6352a56caadC4F1E25CD6c75970Fa768A3304e64'
+
+# Get from https://open-api.openocean.finance/v3/:chain/dexList
+# array of dexCode for enabling 
+enabledDexCodes: 
+  telos:
+    evm: ['VelocoreStable','VelocoreVolatile','Symmetric','SwapSicleV3'] # 5: VelocoreStable, 6: VelocoreVolatile, 7: Symmetric, 8: SwapSicleV3

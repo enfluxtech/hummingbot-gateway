@@ -35,6 +35,7 @@ import { Xsswap } from '../connectors/xsswap/xsswap';
 import { DexalotCLOB } from '../connectors/dexalot/dexalot';
 import { Algorand } from '../chains/algorand/algorand';
 import { Cosmos } from '../chains/cosmos/cosmos';
+import { Telos } from '../chains/telos/telos';
 import { Tinyman } from '../connectors/tinyman/tinyman';
 import { Plenty } from '../connectors/plenty/plenty';
 import { Curve } from '../connectors/curve/curve';
@@ -134,6 +135,8 @@ export async function getChainInstance(
     connection = XRPL.getInstance(network);
   } else if (chain === 'kujira') {
     connection = Kujira.getInstance(network);
+  } else if (chain === 'telos') {
+    connection = Telos.getInstance(network);
   } else {
     connection = undefined;
   }

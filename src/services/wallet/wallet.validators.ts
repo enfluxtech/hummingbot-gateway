@@ -138,6 +138,11 @@ export const validatePrivateKey: Validator = mkSelectingValidator(
       invalidKujiraPrivateKeyError,
       (val) => typeof val === 'string' && isKujiraPrivateKey(val)
     ),
+    telos: mkValidator(
+      'privateKey',
+      invalidEthPrivateKeyError,
+      (val) => typeof val === 'string' && isEthPrivateKey(val)
+    ),
   }
 );
 
@@ -171,7 +176,8 @@ export const validateChain: Validator = mkValidator(
       val === 'binance-smart-chain' ||
       val === 'tezos' ||
       val === 'xrpl' ||
-      val === 'kujira')
+      val === 'kujira' ||
+      val === 'telos')
 );
 
 export const validateNetwork: Validator = mkValidator(

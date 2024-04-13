@@ -36,4 +36,4 @@ contractAddresses:
 # array of dexCode for enabling 
 enabledDexCodes: 
   telos:
-    evm: ['VelocoreStable','VelocoreVolatile','Symmetric','SwapSicleV3'] # 5: VelocoreStable, 6: VelocoreVolatile, 7: Symmetric, 8: SwapSicleV3
+    evm: ['SwapSicle','VelocoreStable','VelocoreVolatile','Symmetric'] # 1: SwapSicle, 5: VelocoreStable, 6: VelocoreVolatile, 7: Symmetric

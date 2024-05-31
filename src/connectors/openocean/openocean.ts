@@ -85,7 +85,7 @@ export class Openocean implements Uniswapish {
     const headers: Record<string, string> = {};
 
     if (config.apiKey) {
-      headers['Authorization'] = `Bearer ${config.apiKey}`;
+      headers['apiKey'] = config.apiKey;
     }
 
     this._httpClient = axios.create({

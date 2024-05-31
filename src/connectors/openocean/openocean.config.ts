@@ -11,9 +11,11 @@ export namespace OpenoceanConfig {
     chainType: string;
     availableNetworks: Array<AvailableNetworks>;
     enabledDexCodes: (chain: string, network: string) => Array<string>;
+    apiKey: string;
   }
 
   export const config: NetworkConfig = {
+    apiKey: ConfigManagerV2.getInstance().get('openocean.apiKey'),
     allowedSlippage: ConfigManagerV2.getInstance().get(
       'openocean.allowedSlippage'
     ),

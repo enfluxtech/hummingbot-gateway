@@ -510,6 +510,7 @@ export class Openocean implements Uniswapish {
             from: swapData.from,
             to: swapData.to,
             gasLimit: BigNumber.from(gas.toString()),
+            gasPrice: BigNumber.from(swapData.gasPrice),
             data: swapData.data,
             value: BigNumber.from(swapData.value),
             chainId: this.chainId,

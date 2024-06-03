@@ -410,8 +410,8 @@ export class Openocean implements Uniswapish {
           `estimateBuyTrade reverseData inAmount(${quoteToken.symbol}): ${quoteData.reverseAmount}, outAmount(${baseToken.symbol}): ${quoteData.inAmount}`
         );
         const amounts = [
-          new Big(quoteData.reverseAmount).toFixed(0),
-          new Big(quoteData.inAmount).toString(),
+          quoteData.reverseAmount.toString(),
+          quoteData.inAmount.toString(),
         ];
         const minimumInput = new TokenAmount(quoteToken, amounts[0]);
         const trade = newFakeTrade(

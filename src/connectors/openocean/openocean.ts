@@ -12,7 +12,7 @@ import {
 } from '@uniswap/sdk';
 import Decimal from 'decimal.js-light';
 import { Big } from 'big.js';
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { logger } from '../../services/logger';
 import { Avalanche } from '../../chains/avalanche/avalanche';
 import { Ethereum } from '../../chains/ethereum/ethereum';
@@ -68,6 +68,7 @@ export class Openocean implements Uniswapish {
   private _enabledDexCodes: string[];
   private _enabledDexIndexes: number[];
   private _ready: boolean = false;
+  private _httpClient: AxiosInstance;
 
   private constructor(chain: string, network: string) {
     this._chain = chain;
@@ -80,6 +81,17 @@ export class Openocean implements Uniswapish {
     this._gasLimitEstimate = config.gasLimitEstimate;
     this._enabledDexCodes = config.enabledDexCodes(chain, network);
     this._enabledDexIndexes = [];
+
+    const headers: Record<string, string> = {};
+
+    if (config.apiKey) {
+      headers['apiKey'] = config.apiKey;
+    }
+
+    this._httpClient = axios.create({
+      baseURL: `https://open-api.openocean.finance/v3/${chain}`,
+      headers,
+    });
   }
 
   public static getInstance(chain: string, network: string): Openocean {
@@ -213,12 +225,7 @@ export class Openocean implements Uniswapish {
 
     let dexListRes;
     try {
-      dexListRes = await axios.get(
-        `https://open-api.openocean.finance/v3/${this.chainName}/dexList`,
-        {
-          params: {},
-        }
-      );
+      dexListRes = await this._httpClient.get('/dexList');
     } catch (e) {
       if (e instanceof Error) {
         logger.error(`Could not get dex list info. ${e.message}`);
@@ -280,18 +287,15 @@ export class Openocean implements Uniswapish {
     const gasPrice = this.chainInstance.gasPrice;
     let quoteRes;
     try {
-      quoteRes = await axios.get(
-        `https://open-api.openocean.finance/v3/${this.chainName}/quote`,
-        {
-          params: {
-            inTokenAddress: baseToken.address,
-            outTokenAddress: quoteToken.address,
-            amount: reqAmount,
-            gasPrice: gasPrice,
-            enabledDexIds: this._enabledDexIndexes.join(','),
-          },
-        }
-      );
+      quoteRes = await this._httpClient.get('/quote', {
+        params: {
+          inTokenAddress: baseToken.address,
+          outTokenAddress: quoteToken.address,
+          amount: reqAmount,
+          gasPrice: gasPrice,
+          enabledDexIds: this._enabledDexIndexes.join(','),
+        },
+      });
     } catch (e) {
       if (e instanceof Error) {
         logger.error(`Could not get trade info. ${e.message}`);
@@ -370,18 +374,15 @@ export class Openocean implements Uniswapish {
     const gasPrice = this.chainInstance.gasPrice;
     let quoteRes;
     try {
-      quoteRes = await axios.get(
-        `https://open-api.openocean.finance/v3/${this.chainName}/reverseQuote`,
-        {
-          params: {
-            inTokenAddress: baseToken.address,
-            outTokenAddress: quoteToken.address,
-            amount: reqAmount,
-            gasPrice: gasPrice,
-            enabledDexIds: this._enabledDexIndexes.join(','),
-          },
-        }
-      );
+      quoteRes = await this._httpClient.get('/reverseQuote', {
+        params: {
+          inTokenAddress: baseToken.address,
+          outTokenAddress: quoteToken.address,
+          amount: reqAmount,
+          gasPrice: gasPrice,
+          enabledDexIds: this._enabledDexIndexes.join(','),
+        },
+      });
     } catch (e) {
       if (e instanceof Error) {
         logger.error(`Could not get trade info. ${e.message}`);
@@ -466,21 +467,18 @@ export class Openocean implements Uniswapish {
     const outToken: any = trade.route.output;
     let swapRes;
     try {
-      swapRes = await axios.get(
-        `https://open-api.openocean.finance/v3/${this.chainName}/swap_quote`,
-        {
-          params: {
-            inTokenAddress: inToken.address,
-            outTokenAddress: outToken.address,
-            amount: trade.inputAmount.toExact(),
-            slippage: this.getSlippageNumberage(),
-            account: wallet.address,
-            gasPrice: gasPrice.toString(),
-            referrer: '0x3fb06064b88a65ba9b9eb840dbb5f3789f002642',
-            enabledDexIds: this._enabledDexIndexes.join(','),
-          },
-        }
-      );
+      swapRes = await this._httpClient.get('/swap_quote', {
+        params: {
+          inTokenAddress: inToken.address,
+          outTokenAddress: outToken.address,
+          amount: trade.inputAmount.toExact(),
+          slippage: this.getSlippageNumberage(),
+          account: wallet.address,
+          gasPrice: gasPrice.toString(),
+          referrer: '0x3fb06064b88a65ba9b9eb840dbb5f3789f002642',
+          enabledDexIds: this._enabledDexIndexes.join(','),
+        },
+      });
     } catch (e) {
       if (e instanceof Error) {
         logger.error(`Could not get trade info. ${e.message}`);

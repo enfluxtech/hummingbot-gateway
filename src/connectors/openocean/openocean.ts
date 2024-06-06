@@ -83,13 +83,15 @@ export class Openocean implements Uniswapish {
     this._enabledDexIndexes = [];
 
     const headers: Record<string, string> = {};
+    let baseURL = `https://open-api.openocean.finance/v3/${chain}`;
 
     if (config.apiKey) {
       headers['apiKey'] = config.apiKey;
+      baseURL = `https://open-api-pro.openocean.finance/v3/${chain}`;
     }
 
     this._httpClient = axios.create({
-      baseURL: `https://open-api.openocean.finance/v3/${chain}`,
+      baseURL,
       headers,
     });
   }
@@ -244,7 +246,7 @@ export class Openocean implements Uniswapish {
       if (dexListRes.data.code == 200) {
         const dexList = dexListRes.data.data;
         logger.info(`initializing enabled dex indexes...`);
-        let indexes = [];
+        const indexes = [];
         for (const dex of dexList) {
           if (
             this._enabledDexCodes

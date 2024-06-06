@@ -55,6 +55,17 @@ export function newFakeTrade(
   return trade;
 }
 
+// Reference: https://docs.openocean.finance/dev/supported-chains
+const chainToChainCode: Record<string, string> = {
+  ethereum: 'eth',
+  'binance-smart-chain': 'bsc',
+  avalanche: 'avax',
+  polygon: 'polygon',
+  harmony: 'harmony',
+  cronos: 'cronos',
+  telos: 'telos',
+};
+
 export class Openocean implements Uniswapish {
   private static _instances: { [name: string]: Openocean };
   private chainInstance;
@@ -84,12 +95,20 @@ export class Openocean implements Uniswapish {
 
     const headers: Record<string, string> = {};
 
+    if (!chainToChainCode[chain]) {
+      throw new Error('unsupported chain');
+    }
+
+    const chainCode = chainToChainCode[chain];
+    let baseURL = `https://open-api.openocean.finance/v3/${chainCode}`;
+
     if (config.apiKey) {
       headers['apiKey'] = config.apiKey;
+      baseURL = `https://open-api-pro.openocean.finance/v3/${chainCode}`;
     }
 
     this._httpClient = axios.create({
-      baseURL: `https://open-api.openocean.finance/v3/${chain}`,
+      baseURL,
       headers,
     });
   }
@@ -244,7 +263,7 @@ export class Openocean implements Uniswapish {
       if (dexListRes.data.code == 200) {
         const dexList = dexListRes.data.data;
         logger.info(`initializing enabled dex indexes...`);
-        let indexes = [];
+        const indexes = [];
         for (const dex of dexList) {
           if (
             this._enabledDexCodes

@@ -521,26 +521,14 @@ export class Openocean implements Uniswapish {
         nonce,
         wallet.address,
         async (nextNonce) => {
-          /**
-           * Actually amount of gas that was return from OpenOcean should be enough
-           * but by some reason I have to double it to make it work.
-           * They should check amount of gas (estimatedGas) that returned from their API.
-           * Rest of gas will be returned to user.
-           */
           const gas = Math.ceil(Number(swapData.estimatedGas) * 2);
-
-          const maxPriorityFeePerGas = parseUnits('1', 'gwei');
-          const maxFeePerGas = BigNumber.from(swapData.gasPrice).add(
-            maxPriorityFeePerGas
-          );
 
           const trans = {
             nonce: nextNonce,
             from: swapData.from,
             to: swapData.to,
             gasLimit: BigNumber.from(gas.toString()),
-            maxPriorityFeePerGas,
-            maxFeePerGas,
+            gasPrice: BigNumber.from(swapData.gasPrice),
             data: swapData.data,
             value: BigNumber.from(swapData.value),
             chainId: this.chainId,

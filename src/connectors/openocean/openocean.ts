@@ -31,7 +31,7 @@ import {
   UNKNOWN_ERROR_ERROR_CODE,
   UNKNOWN_ERROR_MESSAGE,
 } from '../../services/error-handler';
-import { getAddress, parseUnits } from 'ethers/lib/utils';
+import { getAddress } from 'ethers/lib/utils';
 
 export function newFakeTrade(
   tokenIn: Token,

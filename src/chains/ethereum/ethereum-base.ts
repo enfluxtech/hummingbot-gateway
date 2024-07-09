@@ -374,6 +374,7 @@ export class EthereumBase {
           value: utils.parseEther('0'),
           nonce: nextNonce,
           gasPrice: (gasPrice * 1e9).toFixed(0),
+          gasLimit: 21000, // gas limit for a simple transaction
         };
         const response = await wallet.sendTransaction(tx);
         logger.info(response);

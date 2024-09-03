@@ -39,6 +39,12 @@ import {
   Fraction as QuickswapFraction,
 } from 'quickswap-sdk';
 import {
+  Trade as ShibaswapTrade,
+  Token as ShibaToken,
+  CurrencyAmount as ShibaCurrencyAmount,
+  Fraction as ShibaFraction,
+} from '@shibaswap/sdk';
+import {
   Trade as SushiswapTrade,
   Token as SushiToken,
   CurrencyAmount as SushiCurrencyAmount,
@@ -125,6 +131,7 @@ export type Tokenish =
   | TokenTraderjoe
   | UniswapCoreToken
   | SushiToken
+  | ShibaToken
   | PancakeSwapToken
   | MMFToken
   | VVSToken
@@ -145,6 +152,7 @@ export type UniswapishTrade =
   | TradeQuickswap
   | TradeTraderjoe
   | SushiswapTrade<SushiToken, SushiToken, SushiTradeType>
+  | ShibaswapTrade
   | TradeUniswap
   | PancakeSwapTrade<
       PancakeSwapCurrency,
@@ -179,6 +187,7 @@ export type UniswapishAmount =
   | UniswapCoreCurrencyAmount<Currency>
   | CurrencyAmountTraderjoe
   | SushiCurrencyAmount<SushiCurrency | SushiToken>
+  | ShibaCurrencyAmount
   | PancakeSwapCurrencyAmount<PancakeSwapCurrency>
   | CurrencyAmountMMF
   | CurrencyAmountVVS
@@ -191,6 +200,7 @@ export type Fractionish =
   | QuickswapFraction
   | TraderjoeFraction
   | SushiFraction
+  | ShibaFraction
   | PancakeSwapFraction
   | FractionMMF
   | FractionVVS

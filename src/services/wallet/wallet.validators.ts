@@ -113,6 +113,11 @@ export const validatePrivateKey: Validator = mkSelectingValidator(
       invalidEthPrivateKeyError,
       (val) => typeof val === 'string' && isEthPrivateKey(val)
     ),
+    shibarium: mkValidator(
+      'privateKey',
+      invalidEthPrivateKeyError,
+      (val) => typeof val === 'string' && isEthPrivateKey(val)
+    ),
     'binance-smart-chain': mkValidator(
       'privateKey',
       invalidEthPrivateKeyError,
@@ -147,7 +152,7 @@ export const validatePrivateKey: Validator = mkSelectingValidator(
 );
 
 export const invalidChainError: string =
-  'chain must be "ethereum", "avalanche", "near", "harmony", "cosmos", "binance-smart-chain", "kujira"';
+  'chain must be "ethereum", "avalanche", "near", "harmony", "cosmos", "binance-smart-chain", "kujira", "shibarium"';
 
 export const invalidNetworkError: string =
   'expected a string for the network key';
@@ -168,6 +173,7 @@ export const validateChain: Validator = mkValidator(
       val === 'ethereum' ||
       val === 'avalanche' ||
       val === 'polygon' ||
+      val === 'shibarium' ||
       val === 'xdc' ||
       val === 'near' ||
       val === 'harmony' ||

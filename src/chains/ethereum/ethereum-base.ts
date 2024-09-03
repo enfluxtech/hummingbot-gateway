@@ -249,7 +249,7 @@ export class EthereumBase {
     const balance: BigNumber = await contract.balanceOf(wallet.address);
     logger.info(
       `Raw balance of ${contract.address} for ` +
-      `${wallet.address}: ${balance.toString()}`
+        `${wallet.address}: ${balance.toString()}`
     );
     return { value: balance, decimals: decimals };
   }
@@ -263,10 +263,10 @@ export class EthereumBase {
   ): Promise<TokenValue> {
     logger.info(
       'Requesting spender ' +
-      spender +
-      ' allowance for owner ' +
-      wallet.address +
-      '.'
+        spender +
+        ' allowance for owner ' +
+        wallet.address +
+        '.'
     );
     const allowance = await contract.allowance(wallet.address, spender);
     logger.info(allowance);
@@ -319,12 +319,12 @@ export class EthereumBase {
   ): Promise<Transaction> {
     logger.info(
       'Calling approve method called for spender ' +
-      spender +
-      ' requesting allowance ' +
-      amount.toString() +
-      ' from owner ' +
-      wallet.address +
-      '.'
+        spender +
+        ' requesting allowance ' +
+        amount.toString() +
+        ' from owner ' +
+        wallet.address +
+        '.'
     );
     return this.nonceManager.provideNonce(
       nonce,

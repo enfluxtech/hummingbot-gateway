@@ -4,6 +4,7 @@ import { Ethereum } from '../chains/ethereum/ethereum';
 import { BinanceSmartChain } from '../chains/binance-smart-chain/binance-smart-chain';
 import { Harmony } from '../chains/harmony/harmony';
 import { Polygon } from '../chains/polygon/polygon';
+import { Shibarium } from '../chains/shibarium/shibarium';
 import { Xdc } from '../chains/xdc/xdc';
 import { Tezos } from '../chains/tezos/tezos';
 import { XRPL, XRPLish } from '../chains/xrpl/xrpl';
@@ -44,7 +45,9 @@ import { KujiraCLOB } from '../connectors/kujira/kujira';
 import { PancakeswapLP } from '../connectors/pancakeswap/pancakeswap.lp';
 import { XRPLCLOB } from '../connectors/xrpl/xrpl';
 import { QuipuSwap } from '../connectors/quipuswap/quipuswap';
+import { Shibaswap } from '../connectors/shibaswap/shibaswap';
 import { Carbonamm } from '../connectors/carbon/carbonAMM';
+import { Chewyswap } from '../connectors/chewyswap/chewyswap';
 
 export type ChainUnion =
   | Algorand
@@ -119,6 +122,8 @@ export async function getChainInstance(
     connection = Harmony.getInstance(network);
   } else if (chain === 'polygon') {
     connection = Polygon.getInstance(network);
+  } else if (chain === 'shibarium') {
+    connection = Shibarium.getInstance(network);
   } else if (chain === 'cronos') {
     connection = Cronos.getInstance(network);
   } else if (chain === 'cosmos') {
@@ -177,6 +182,8 @@ export type Connector<T> = T extends Uniswapish
   ? KujiraCLOB
   : T extends QuipuSwap
   ? QuipuSwap
+  : T extends Shibaswap
+  ? Shibaswap
   : never;
 
 export async function getConnector<T>(
@@ -240,6 +247,10 @@ export async function getConnector<T>(
     connectorInstance = QuipuSwap.getInstance(network);
   } else if (chain === 'ethereum' && connector === 'carbonamm') {
     connectorInstance = Carbonamm.getInstance(chain, network);
+  } else if (chain === 'shibarium' && connector === 'shibaswap') {
+    connectorInstance = Shibaswap.getInstance(chain, network);
+  } else if (chain === 'shibarium' && connector === 'chewyswap') {
+    connectorInstance = Chewyswap.getInstance(chain, network);
   } else {
     throw new Error('unsupported chain or connector');
   }

@@ -4,7 +4,7 @@ networks:
     chainID: 40
     nodeURL: https://mainnet.telos.net/evm
     tokenListType: 'FILE'
-    tokenListSource: 'conf/lists/telos_evm_tokens.json'
+    tokenListSource: '/home/gateway/conf/lists/telos_evm_tokens.json'
     nativeCurrencySymbol: 'TLOS'  
   
 manualGasPrice: 600

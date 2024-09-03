@@ -131,3 +131,15 @@ configurations:
   $namespace carbon:
     configurationPath: carbon.yml
     schemaPath: carbon-schema.json
+
+  $namespace shibarium:
+    configurationPath: shibarium.yml
+    schemaPath: ethereum-schema.json
+
+  $namespace shibaswap:
+    configurationPath: shibaswap.yml
+    schemaPath: shibaswap-schema.json
+
+  $namespace chewyswap:
+    configurationPath: chewyswap.yml
+    schemaPath: chewyswap-schema.json
